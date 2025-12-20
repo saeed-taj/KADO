@@ -154,6 +154,7 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
         
         .product:hover {
@@ -175,6 +176,22 @@
             font-size: 1.1rem;
             margin-bottom: 8px;
             color: var(--dark);
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+        
+        .stars {
+            color: #ffc107;
+        }
+        
+        .review-count {
+            color: #666;
+            font-size: 0.9rem;
         }
         
         .product-price {
@@ -339,7 +356,6 @@
             font-size: 0.9rem;
         }
         
-        /* Mobile responsiveness */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.2rem;
@@ -354,7 +370,6 @@
             }
         }
         
-        /* Cart modal */
         .modal {
             display: none;
             position: fixed;
@@ -374,6 +389,8 @@
             max-width: 600px;
             border-radius: 8px;
             overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .modal-header {
@@ -392,8 +409,6 @@
         
         .modal-body {
             padding: 20px;
-            max-height: 70vh;
-            overflow-y: auto;
         }
         
         .cart-item {
@@ -468,10 +483,248 @@
         .checkout-btn:hover {
             background-color: #218838;
         }
+
+        /* Product Detail Modal */
+        .product-detail-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .product-detail-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .product-detail-img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-detail-info {
+            flex: 1;
+        }
+
+        .product-detail-info h2 {
+            margin-bottom: 15px;
+        }
+
+        .product-detail-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .reviews-section {
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+
+        .reviews-section h3 {
+            margin-bottom: 20px;
+        }
+
+        .review-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+        }
+
+        .review-date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .review-text {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .add-review-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .add-review-btn:hover {
+            background-color: #2a75e8;
+        }
+
+        /* Review Form */
+        .review-form {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .review-form input,
+        .review-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .review-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .star-rating span {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .submit-review-btn {
+            background-color: var(--success);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-review-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Checkout Modal */
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
+            border: 2px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-option:hover,
+        .payment-option.selected {
+            border-color: var(--primary);
+            background-color: #f0f7ff;
+        }
+
+        .payment-option img {
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .checkout-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .order-summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .order-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-top: 2px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--success);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .place-order-btn:hover {
+            background-color: #218838;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-content {
+                flex-direction: column;
+            }
+
+            .product-detail-img {
+                width: 100%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Header with Navigation -->
     <header>
         <div class="container">
             <nav>
@@ -492,79 +745,43 @@
                     </div>
                     <div class="nav-icon" id="cart-icon">
                         <span>🛒</span>
-                        <span class="cart-count">3</span>
+                        <span class="cart-count">0</span>
                     </div>
                 </div>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h1>Modern Shopping Experience</h1>
-            <p>Discover premium products with amazing deals and fast shipping nationwide.</p>
+            <p>Discover premium Hunza handicrafts with amazing deals and fast shipping nationwide.</p>
             <button class="btn btn-primary">Shop Now</button>
         </div>
     </section>
 
-    <!-- Featured Products -->
     <section class="featured">
         <div class="container">
             <h2 class="section-title">Featured Products</h2>
-            <div class="products">
-                <div class="product">
-                    <img src="topi.PNG" alt="Hunza Tradional Cap" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-name">Hunza Traditional Cap</h3>
-                        <div class="product-price">$12.99</div>
-                        <button class="product-btn">Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="tote.jpg" alt="Hunza Tote Bags" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-name">Hunza Tote Bags</h3>
-                        <div class="product-price">$89.99</div>
-                        <button class="product-btn">Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="purses.jpg" alt="Hunzai Tradinional Purses" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-name">Hunzai Traditional Purses</h3>
-                        <div class="product-price">$24.99</div>
-                        <button class="product-btn">Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="bags.PNG" alt="Hunzai Embrioded Bags" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-name">Hunzai Embroided Bags</h3>
-                        <div class="product-price">$59.99</div>
-                        <button class="product-btn">Add to Cart</button>
-                    </div>
-                </div>
+            <div class="products" id="products-container">
+                <!-- Products will be dynamically generated -->
             </div>
         </div>
     </section>
 
-    <!-- Product Categories -->
     <section class="categories">
         <div class="container">
             <h2 class="section-title">Shop by Category</h2>
             <div class="category-list">
                 <div class="category-item active">All Products</div>
-                <div class="category-item">Electronics</div>
-                <div class="category-item">Clothing</div>
-                <div class="category-item">Home & Kitchen</div>
-                <div class="category-item">Beauty</div>
-                <div class="category-item">Sports</div>
+                <div class="category-item">Traditional Caps</div>
+                <div class="category-item">Bags & Totes</div>
+                <div class="category-item">Purses</div>
+                <div class="category-item">Embroidered Items</div>
             </div>
         </div>
     </section>
 
-    <!-- Newsletter Signup -->
     <section class="newsletter">
         <div class="container">
             <h2>Subscribe to Our Newsletter</h2>
@@ -576,13 +793,12 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>KADO-HUNZA</h3>
-                    <p>Your one-stop destination for premium products and exceptional shopping experience.</p>
+                    <p>Your one-stop destination for authentic Hunza handicrafts and traditional items.</p>
                     <div class="social-links">
                         <a href="#">📘</a>
                         <a href="#">📱</a>
@@ -628,103 +844,162 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Your Shopping Cart</h3>
-                <span class="close-modal">&times;</span>
+                <span class="close-modal" data-modal="cart-modal">&times;</span>
+            </div>
+            <div class="modal-body" id="cart-items-container">
+                <!-- Cart items will be dynamically generated -->
+            </div>
+            <div class="cart-subtotal" id="cart-subtotal">
+                <span>Subtotal:</span>
+                <span>$0.00</span>
+            </div>
+            <button class="checkout-btn" id="proceed-checkout">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal product-detail-modal" id="product-detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Product Details</h3>
+                <span class="close-modal" data-modal="product-detail-modal">&times;</span>
+            </div>
+            <div class="modal-body" id="product-detail-body">
+                <!-- Product details will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Checkout</h3>
+                <span class="close-modal" data-modal="checkout-modal">&times;</span>
             </div>
             <div class="modal-body">
-                <div class="cart-item">
-                    <img src="topi.PNG" alt="Hunza Tradional Cap">
-                    <div class="cart-item-details">
-                        <h4>Hunza Traditional Cap</h4>
-                        <p class="cart-item-price">$89.99</p>
+                <div class="order-summary" id="checkout-summary">
+                    <!-- Order summary will be generated -->
+                </div>
+
+                <h4 style="margin-bottom: 15px;">Payment Method</h4>
+                <div class="payment-options">
+                    <div class="payment-option" data-payment="card">
+                        <div style="font-size: 2rem;">💳</div>
+                        <div>Credit/Debit Card</div>
                     </div>
-                    <div class="cart-actions">
-                        <button class="quantity-btn">-</button>
-                        <span class="cart-quantity">1</span>
-                        <button class="quantity-btn">+</button>
-                        <button class="remove-btn">🗑️</button>
+                    <div class="payment-option" data-payment="easypaisa">
+                        <div style="font-size: 2rem;">📱</div>
+                        <div>Easypaisa</div>
+                    </div>
+                    <div class="payment-option" data-payment="jazzcash">
+                        <div style="font-size: 2rem;">💰</div>
+                        <div>JazzCash</div>
+                    </div>
+                    <div class="payment-option" data-payment="cod">
+                        <div style="font-size: 2rem;">🏠</div>
+                        <div>Cash on Delivery</div>
                     </div>
                 </div>
-                <div class="cart-item">
-                    <img src="tote.jpg" alt="Hunza Tote Bags">
-                    <div class="cart-item-details">
-                        <h4>Hunza Tote Bags</h4>
-                        <p class="cart-item-price">$129.99</p>
+
+                <form class="checkout-form" id="checkout-form">
+                    <h4 style="margin-bottom: 15px;">Shipping Information</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name *</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name *</label>
+                            <input type="text" required>
+                        </div>
                     </div>
-                    <div class="cart-actions">
-                        <button class="quantity-btn">-</button>
-                        <span class="cart-quantity">1</span>
-                        <button class="quantity-btn">+</button>
-                        <button class="remove-btn">🗑️</button>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" required>
                     </div>
-                </div>
-                <div class="cart-item">
-                    <img src="purses.jpg" alt="Hunzai Tradinional Purses">
-                    <div class="cart-item-details">
-                        <h4>Hunzai Traditional Purses</h4>
-                        <p class="cart-item-price">$24.99</p>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" required>
                     </div>
-                    <div class="cart-actions">
-                        <button class="quantity-btn">-</button>
-                        <span class="cart-quantity">1</span>
-                        <button class="quantity-btn">+</button>
-                        <button class="remove-btn">🗑️</button>
+                    <div class="form-group">
+                        <label>Address *</label>
+                        <input type="text" required>
                     </div>
-                </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City *</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code *</label>
+                            <input type="text" required>
+                        </div>
+                    </div>
+                    
+                    <div id="payment-details" style="display: none;">
+                        <h4 style="margin: 20px 0 15px;">Payment Details</h4>
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="place-order-btn">Place Order</button>
+                </form>
             </div>
-            <div class="cart-subtotal">
-                <span>Subtotal:</span>
-                <span>$244.97</span>
-            </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
         </div>
     </div>
 
     <script>
-        // Simple cart modal functionality
-        const cartIcon = document.getElementById('cart-icon');
-        const cartModal = document.getElementById('cart-modal');
-        const closeModal = document.querySelector('.close-modal');
-        
-        cartIcon.addEventListener('click', () => {
-            cartModal.style.display = 'flex';
-        });
-        
-        closeModal.addEventListener('click', () => {
-            cartModal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', (event) => {
-            if (event.target === cartModal) {
-                cartModal.style.display = 'none';
-            }
-        });
-        
-        // Add to cart functionality
-        const addToCartButtons = document.querySelectorAll('.product-btn');
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const cartCount = document.querySelector('.cart-count');
-                cartCount.textContent = parseInt(cartCount.textContent) + 1;
-                
-                // Animation feedback
-                button.textContent = 'Added!';
-                button.style.backgroundColor = '#28a745';
-                
-                setTimeout(() => {
-                    button.textContent = 'Add to Cart';
-                    button.style.backgroundColor = '';
-                }, 1500);
-            });
-        });
-        
-        // Category selection
-        const categoryItems = document.querySelectorAll('.category-item');
-        categoryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                categoryItems.forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-            });
-        });
-    </script>
-</body>
-</html>
+        // Product Database with Reviews
+        const products = [
+            {
+                id: 1,
+                name: 'Hunza Traditional Cap',
+                price: 12.99,
+                image: 'topi.PNG',
+                description: 'Authentic hand-woven traditional Hunza cap with intricate patterns. Perfect for both traditional and modern wear.',
+                rating: 4.5,
+                reviewCount: 28,
+                reviews: [
+                    { name: 'Ahmed Khan', rating: 5, date: '2024-12-10', text: 'Beautiful craftsmanship! The quality is excellent and it fits perfectly.' },
+                    { name: 'Sara Ali', rating: 4, date: '2024-12-05', text: 'Love the design. Took a bit longer to ship but worth the wait.' },
+                    { name: 'Bilal Shah', rating: 5, date: '2024-11-28', text: 'Authentic Hunza cap. Very happy with my purchase!' }
+                ]
+            },
+            {
+                id: 2,
+                name: 'Hunza Tote Bags',
+                price: 89.99,
+                image: 'tote.jpg',
+                description: 'Spacious and stylish tote bag with traditional Hunza embroidery. Durable and perfect for daily use.',
+                rating: 4.8,
+                reviewCount: 42,
+                reviews: [
+                    { name: 'Fatima Noor', rating: 5, date: '2024-12-12', text: 'Absolutely love this bag! The embroidery is stunning and it\'s very spacious.' },
+                    { name: 'Hassan Ali', rating: 5, date: '2024-12-08', text: 'Great quality and unique design. Gets compliments everywhere!' },
+                    { name: 'Aisha Malik', rating: 4, date: '2024-12-01', text: 'Beautiful bag but slightly smaller than expected.' }
+                ]
+            },
+            {
+                id: 3,
+                name: 'Hunzai Traditional Purses',
+                price: 24.99,
+                image: 'purses.jpg',
+                description: 'Elegant traditional purse with colorful embroidery and secure closure. Ideal for special occasions.',
+                rating: 4.3,
+                reviewCount: 35,
+                reviews: [
+                    { name: 'Zainab Ahmed', rating: 5, date: '2024-12-15', text: 'Perfect for weddings! The colors are vibrant and quality is top-notch.' },
+                    { name
