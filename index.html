@@ -1002,4 +1002,346 @@
                 reviewCount: 35,
                 reviews: [
                     { name: 'Zainab Ahmed', rating: 5, date: '2024-12-15', text: 'Perfect for weddings! The colors are vibrant and quality is top-notch.' },
-                    { name
+                    { name: 'Mehmood Khan', rating: 4, date: '2024-12-03', text: 'Nice purse but zipper could be stronger.' }
+                ]
+            },
+            {
+                id: 4,
+                name: 'Hunzai Embroidered Bags',
+                price: 59.99,
+                image: 'bags.PNG',
+                description: 'Handcrafted embroidered bag featuring traditional Hunza motifs. A perfect blend of tradition and functionality.',
+                rating: 4.6,
+                reviewCount: 31,
+                reviews: [
+                    { name: 'Rabia Shah', rating: 5, date: '2024-12-14', text: 'The embroidery work is absolutely beautiful. Very satisfied!' },
+                    { name: 'Ali Raza', rating: 4, date: '2024-12-09', text: 'Good quality bag, would recommend to others.' },
+                    { name: 'Hina Mirza', rating: 5, date: '2024-11-30', text: 'Bought this as a gift and my friend loved it!' }
+                ]
+            }
+        ];
+
+        let cart = [];
+        let selectedPayment = 'cod';
+
+        // Initialize products
+        function displayProducts() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = products.map(product => `
+                <div class="product" onclick="openProductDetail(${product.id})">
+                    <img src="${product.image}" alt="${product.name}" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-rating">
+                            <span class="stars">${getStars(product.rating)}</span>
+                            <span class="review-count">(${product.reviewCount})</span>
+                        </div>
+                        <div class="product-price">${product.price.toFixed(2)}</div>
+                        <button class="product-btn" onclick="event.stopPropagation(); addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            let stars = '⭐'.repeat(fullStars);
+            if (halfStar) stars += '⭐';
+            return stars;
+        }
+
+        // Product Detail Modal
+        function openProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            const modal = document.getElementById('product-detail-modal');
+            const body = document.getElementById('product-detail-body');
+            
+            body.innerHTML = `
+                <div class="product-detail-content">
+                    <img src="${product.image}" alt="${product.name}" class="product-detail-img">
+                    <div class="product-detail-info">
+                        <h2>${product.name}</h2>
+                        <div class="product-rating">
+                            <span class="stars">${getStars(product.rating)}</span>
+                            <span class="review-count">(${product.reviewCount} reviews)</span>
+                        </div>
+                        <div class="product-price">${product.price.toFixed(2)}</div>
+                        <p class="product-detail-description">${product.description}</p>
+                        <button class="product-btn" onclick="addToCart(${product.id}); closeModal('product-detail-modal')">Add to Cart</button>
+                    </div>
+                </div>
+                
+                <div class="reviews-section">
+                    <h3>Customer Reviews</h3>
+                    <div id="reviews-list">
+                        ${product.reviews.map(review => `
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div>
+                                        <span class="reviewer-name">${review.name}</span>
+                                        <div class="stars">${getStars(review.rating)}</div>
+                                    </div>
+                                    <span class="review-date">${review.date}</span>
+                                </div>
+                                <p class="review-text">${review.text}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="add-review-btn" onclick="toggleReviewForm(${productId})">Write a Review</button>
+                    <div class="review-form" id="review-form-${productId}" style="display: none;">
+                        <div class="star-rating" id="star-rating-${productId}">
+                            ${[1,2,3,4,5].map(i => `<span onclick="setRating(${productId}, ${i})">☆</span>`).join('')}
+                        </div>
+                        <input type="text" placeholder="Your Name" id="reviewer-name-${productId}">
+                        <textarea placeholder="Write your review here..." id="review-text-${productId}"></textarea>
+                        <button class="submit-review-btn" onclick="submitReview(${productId})">Submit Review</button>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        let currentRating = 5;
+        function setRating(productId, rating) {
+            currentRating = rating;
+            const stars = document.querySelectorAll(`#star-rating-${productId} span`);
+            stars.forEach((star, index) => {
+                star.textContent = index < rating ? '⭐' : '☆';
+            });
+        }
+
+        function toggleReviewForm(productId) {
+            const form = document.getElementById(`review-form-${productId}`);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function submitReview(productId) {
+            const name = document.getElementById(`reviewer-name-${productId}`).value;
+            const text = document.getElementById(`review-text-${productId}`).value;
+            
+            if (!name || !text) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const product = products.find(p => p.id === productId);
+            const newReview = {
+                name: name,
+                rating: currentRating,
+                date: new Date().toISOString().split('T')[0],
+                text: text
+            };
+            
+            product.reviews.unshift(newReview);
+            product.reviewCount++;
+            
+            alert('Thank you for your review!');
+            openProductDetail(productId);
+        }
+
+        // Cart Functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            updateCartUI();
+            showNotification('Added to cart!');
+        }
+
+        function updateCartUI() {
+            const cartCount = document.querySelector('.cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            const container = document.getElementById('cart-items-container');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="empty-cart"><p>Your cart is empty</p></div>';
+                document.getElementById('cart-subtotal').style.display = 'none';
+                document.getElementById('proceed-checkout').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('cart-subtotal').style.display = 'flex';
+            document.getElementById('proceed-checkout').style.display = 'block';
+            
+            container.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p class="cart-item-price">${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="cart-actions">
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                        <span class="cart-quantity">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.querySelector('#cart-subtotal span:last-child').textContent = `${subtotal.toFixed(2)}`;
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: var(--success);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        // Checkout Functions
+        document.getElementById('proceed-checkout').addEventListener('click', () => {
+            if (cart.length === 0) return;
+            
+            closeModal('cart-modal');
+            openCheckout();
+        });
+
+        function openCheckout() {
+            const modal = document.getElementById('checkout-modal');
+            const summary = document.getElementById('checkout-summary');
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = 5.99;
+            const total = subtotal + shipping;
+            
+            summary.innerHTML = `
+                <h4 style="margin-bottom: 15px;">Order Summary</h4>
+                ${cart.map(item => `
+                    <div class="order-summary-item">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `).join('')}
+                <div class="order-summary-item">
+                    <span>Shipping</span>
+                    <span>${shipping.toFixed(2)}</span>
+                </div>
+                <div class="order-summary-item order-total">
+                    <span>Total</span>
+                    <span>${total.toFixed(2)}</span>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Payment Selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedPayment = this.dataset.payment;
+                
+                const paymentDetails = document.getElementById('payment-details');
+                if (selectedPayment === 'card') {
+                    paymentDetails.style.display = 'block';
+                } else {
+                    paymentDetails.style.display = 'none';
+                }
+            });
+        });
+
+        // Form Submission
+        document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simulate order processing
+            const modal = document.getElementById('checkout-modal');
+            modal.querySelector('.modal-body').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                    <h2 style="color: var(--success); margin-bottom: 15px;">Order Placed Successfully!</h2>
+                    <p style="color: #666; margin-bottom: 20px;">Thank you for your purchase. We'll send you a confirmation email shortly.</p>
+                    <p style="color: #666;">Order ID: <strong>#${Math.random().toString(36).substr(2, 9).toUpperCase()}</strong></p>
+                    <button onclick="closeModal('checkout-modal'); cart = []; updateCartUI();" style="margin-top: 30px; padding: 12px 30px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Continue Shopping</button>
+                </div>
+            `;
+        });
+
+        // Modal Functions
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                closeModal(this.dataset.modal);
+            });
+        });
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.getElementById('cart-icon').addEventListener('click', () => {
+            document.getElementById('cart-modal').style.display = 'flex';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+
+        // Category Selection
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // Initialize
+        displayProducts();
+
+        // Add slide-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
